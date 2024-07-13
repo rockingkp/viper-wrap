@@ -101,7 +101,7 @@ const Page = () => {
                 ) : isDragOver ? (
                   <p>
                     <span className="font-semibold">Drop file</span>
-                    to upload
+                    &nbsp;to upload
                   </p>
                 ) : (
                   <p>
