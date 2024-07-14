@@ -6,10 +6,15 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import NextImage from "next/image";
 import { Rnd } from "react-rnd";
-import { Radio, RadioGroup } from "@headlessui/react";
+import { Description, Radio, RadioGroup } from "@headlessui/react";
 import { useState } from "react";
-import { COLORS, MODELS } from "@/validators/option-validator";
-import { Label } from "@/components/ui/label";
+import {
+  COLORS,
+  FINISHES,
+  MATERIALS,
+  MODELS,
+} from "@/validators/option-validator";
+import { Label as Label1 } from "@/components/ui/label";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { Label as Label2 } from "@headlessui/react";
 
 interface DesignConfiguratorProps {
   configId: string;
@@ -33,9 +39,13 @@ const DesignConfigurator = ({
   const [options, setOptions] = useState<{
     color: (typeof COLORS)[number];
     model: (typeof MODELS.options)[number];
+    material: (typeof MATERIALS.options)[number];
+    finish: (typeof FINISHES.options)[number];
   }>({
     model: MODELS.options[0],
     color: COLORS[0],
+    material: MATERIALS.options[0],
+    finish: FINISHES.options[0],
   });
 
   return (
@@ -114,7 +124,7 @@ const DesignConfigurator = ({
                     }));
                   }}
                 >
-                  <Label>Colour: {options.color.label}</Label>
+                  <Label1>Colour: {options.color.label}</Label1>
                   <div className="mt-3 flex items-center space-x-3">
                     {COLORS.map((color) => (
                       <Radio
@@ -141,7 +151,7 @@ const DesignConfigurator = ({
                 </RadioGroup>
 
                 <div className="relative flex flex-col gap-3 w-full">
-                  <Label>Model</Label>
+                  <Label1>Model</Label1>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
@@ -185,6 +195,63 @@ const DesignConfigurator = ({
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
+
+                {[MATERIALS, FINISHES].map(
+                  ({ name, options: selectableOptions }) => (
+                    <RadioGroup
+                      key={name}
+                      value={options[name]}
+                      onChange={(val) => {
+                        setOptions((prev) => ({
+                          ...prev,
+                          [name]: val,
+                        }));
+                      }}
+                    >
+                      <Label1>
+                        {name.slice(0, 1).toUpperCase() + name.slice(1)}
+                      </Label1>
+                      <div className="mt-3 space-y-4">
+                        {selectableOptions.map((option) => (
+                          <Radio
+                            key={option.value}
+                            value={option}
+                            className={({ focus, checked }) =>
+                              cn(
+                                "relative block cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between",
+                                {
+                                  "border-primary": focus || checked,
+                                }
+                              )
+                            }
+                          >
+                            <span className="flex items-center">
+                              <span className="flex flex-col text-sm">
+                                <Label2
+                                  as="span"
+                                  className="font-medium text-gray-900"
+                                >
+                                  {option.label}
+                                </Label2>
+
+                                {option.description ? (
+                                  <Description
+                                    as="span"
+                                    className="text-gray-500"
+                                  >
+                                    <span className="block sm:inline">
+                                      {option.description}
+                                    </span>
+                                  </Description>
+                                ) : null}
+                              </span>
+                            </span>
+                          </Radio>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  )
+                )}
               </div>
             </div>
           </div>
