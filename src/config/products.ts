@@ -8,3 +8,5 @@ export const PRODUCT_PRICES = {
     textured: 150_00,
   },
 } as const;
+
+export const BASE_PRICE = 1500_00;
