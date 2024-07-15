@@ -40,7 +40,7 @@ enum CaseColor {
 }
 
 model Configuration {
-  id String @id @default(cuid())
+  id String @unique @id @default(cuid())
   width Int
   height Int
   imageUrl String
