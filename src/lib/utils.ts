@@ -41,5 +41,6 @@ export function constructMetadata({
       images: [image],
     },
     icons,
+    metadataBase: new URL("https://viper-wrap.vercel.app/"),
   };
 }
