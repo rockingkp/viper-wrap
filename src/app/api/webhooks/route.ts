@@ -1,6 +1,5 @@
 import { stripe } from "@/lib/stripe";
 import { headers } from "next/headers";
-import { metadata } from "./../../layout";
 import { db } from "@/db";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -38,9 +37,10 @@ export async function POST(req: Request) {
     }
 
     const billingAddress = session.customer_details!.address;
-    const shippingAddress = session.shipping_details!.address;
+    //@ts-ignore
+    const shippingAddress = session.shipping!.address;
 
-    await db.order.update({
+    const updatedOrder = await db.order.update({
       where: {
         id: orderId,
       },
