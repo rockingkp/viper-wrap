@@ -2,6 +2,8 @@
 
 Built with the Next.js 14 App Router, Postgres, TypeScript, Tailwind & Kinde Auth
 
+![Project Image](https://github.com/rockingkp/viper-wrap/blob/main/thumbnail.png)
+
 ## Features
 
 - 🛠️ Complete shop built from scratch in Next.js 14
